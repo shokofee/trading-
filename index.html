@@ -104,6 +104,7 @@
     <button class="button" onclick="predictTrade()">Predict Outcome</button>
 
     <p id="predictionResult"></p>
+    <div id="analysisResult"></div>
   </div>
 
   <div class="container calculator">
@@ -130,10 +131,12 @@
       if (isValidTrade) {
         // Simulate AI prediction (Profit or Loss)
         const prediction = await getPredictionFromAI(image);
-        displayPrediction(prediction);
+        const analysis = analyzeTrade(prediction);
+        displayPrediction(prediction, analysis);
       } else {
         document.getElementById("predictionResult").innerText = "Not a valid trade screenshot.";
         document.getElementById("predictionResult").className = "";
+        document.getElementById("analysisResult").innerHTML = "";  // Reset analysis
       }
     }
 
@@ -149,8 +152,31 @@
       return Math.random() > 0.5 ? "Profit" : "Loss";
     }
 
-    // Display prediction result
-    function displayPrediction(prediction) {
+    // Analyze the trade based on prediction (add any further analysis here)
+    function analyzeTrade(prediction) {
+      let analysis = "";
+      if (prediction === "Profit") {
+        // Example: trade with a profit will have a small margin gain
+        analysis = `
+          <h3>Trade Analysis:</h3>
+          <p>Entry price: $1000</p>
+          <p>Exit price: $1100</p>
+          <p>Profit Margin: 10%</p>
+        `;
+      } else if (prediction === "Loss") {
+        // Example: trade with a loss will have a small margin loss
+        analysis = `
+          <h3>Trade Analysis:</h3>
+          <p>Entry price: $1000</p>
+          <p>Exit price: $900</p>
+          <p>Loss Margin: 10%</p>
+        `;
+      }
+      return analysis;
+    }
+
+    // Display prediction result and trade analysis
+    function displayPrediction(prediction, analysis) {
       const resultElement = document.getElementById("predictionResult");
       if (prediction === "Profit") {
         resultElement.innerText = "Prediction: PROFIT";
@@ -159,6 +185,7 @@
         resultElement.innerText = "Prediction: LOSS";
         resultElement.className = "status-loss";
       }
+      document.getElementById("analysisResult").innerHTML = analysis;
     }
 
     // Profit/Loss Calculator function
