@@ -3,44 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trade Prediction AI - Live Bitcoin Chart</title>
-
-  <!-- Chart.js CDN for Bitcoin live chart -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+  <title>Trade Prediction AI</title>
   <style>
     body {
       background-color: #121212;
       color: #fff;
-      font-family: 'Arial', sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      justify-content: flex-start;
       height: 100vh;
-      overflow-y: auto;
-    }
-
-    .header {
-      background-color: #1E1E1E;
-      width: 100%;
-      padding: 20px;
-      text-align: center;
-      font-size: 24px;
-      color: #00FF00;
-      font-weight: bold;
+      flex-direction: column;
     }
 
     .container {
       background-color: #1E1E1E;
       border-radius: 10px;
-      padding: 30px;
+      padding: 40px;
       width: 80%;
-      max-width: 900px;
+      max-width: 700px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-      margin-top: 20px;
+      text-align: center;
     }
 
     h1 {
@@ -107,30 +92,10 @@
       color: #fff;
       font-size: 18px;
     }
-
-    .chart-container {
-      width: 100%;
-      max-width: 900px;
-      height: 400px;
-      margin-top: 50px;
-    }
-
-    .disclaimer {
-      color: #aaa;
-      font-size: 14px;
-      text-align: center;
-      margin-top: 50px;
-    }
   </style>
 </head>
 <body>
 
-  <!-- Header Section -->
-  <div class="header">
-    Trade Prediction AI - Live Bitcoin Chart
-  </div>
-
-  <!-- Main Container -->
   <div class="container">
     <h1>Trade Prediction AI</h1>
     <p>Upload a trade screenshot to predict if the trade will be profitable or not.</p>
@@ -142,7 +107,6 @@
     <div id="analysisResult"></div>
   </div>
 
-  <!-- Calculator Container -->
   <div class="container calculator">
     <h2>Profit/Loss Calculator</h2>
     <input type="number" id="entryPrice" placeholder="Entry Price">
@@ -150,16 +114,6 @@
     <input type="number" id="quantity" placeholder="Quantity">
     <button class="button" onclick="calculateProfitLoss()">Calculate</button>
     <p id="calculatorResult"></p>
-  </div>
-
-  <!-- Bitcoin Live Chart -->
-  <div class="chart-container">
-    <canvas id="bitcoinChart"></canvas>
-  </div>
-
-  <!-- Disclaimer Section -->
-  <div class="disclaimer">
-    <p><strong>Disclaimer:</strong> The AI prediction is based on the analysis of trade data and may not always be accurate. Please perform additional research before making any financial decisions.</p>
   </div>
 
   <script>
@@ -188,6 +142,8 @@
 
     // Simulated function to check if the image is a valid trade screenshot
     async function validateImage(image) {
+      // Normally, you'd call an AI API to check if it's a valid trade screenshot
+      // Simulating with a 50% chance
       return Math.random() > 0.5; // Randomly say it's a valid trade 50% of the time
     }
 
@@ -200,6 +156,7 @@
     function analyzeTrade(prediction) {
       let analysis = "";
       if (prediction === "Profit") {
+        // Example: trade with a profit will have a small margin gain
         analysis = `
           <h3>Trade Analysis:</h3>
           <p>Entry price: $1000</p>
@@ -207,6 +164,7 @@
           <p>Profit Margin: 10%</p>
         `;
       } else if (prediction === "Loss") {
+        // Example: trade with a loss will have a small margin loss
         analysis = `
           <h3>Trade Analysis:</h3>
           <p>Entry price: $1000</p>
@@ -246,16 +204,7 @@
 
       document.getElementById("calculatorResult").innerText = resultText;
     }
+  </script>
 
-    // Live Bitcoin Chart Function (using Chart.js)
-    async function fetchBitcoinData() {
-      const res = await fetch('https://api.coindesk.com/v1/bpi/historical/close.json?for=yesterday');
-      const data = await res.json();
-      const bitcoinPrices = Object.values(data.bpi);
-      const dates = Object.keys(data.bpi);
-
-      renderBitcoinChart(dates, bitcoinPrices);
-    }
-
-    // Render Bitcoin Chart
-    function renderBitcoinChart(dates, prices
+</body>
+</html>
