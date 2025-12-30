@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Professional Crypto Trading Simulator</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #0a0e19;
+    color: #fff;
+  }
+  header {
+    padding: 20px;
+    text-align: center;
+    background: #0f1430;
+    font-size: 30px;
+    font-weight: bold;
+    color: #00e676;
+  }
+  .main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 15px;
+  }
+  .card {
+    background: #111833;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #000;
+    margin: 10px;
+    padding: 15px;
+    flex: 1 1 450px;
+    max-width: 600px;
+  }
+  input, select, button {
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  button {
+    background: #00e676;
+    font-weight: bold;
+    cursor: pointer;
+    color: #000;
+  }
+  button:hover {
+    background: #00c853;
+  }
+  h2 {
+    color: #ff9900;
+  }
+  p.disclaimer {
+    font-size: 12px;
+    color: #aaa;
+    text-align: center;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<header>Crypto Trading Simulator</header>
+
+<div class="main">
+
+  <!-- AI Predictor -->
+  <div class="card">
+    <h2>AI Trade Predictor</h2>
+    <select id="predictCoin"></select>
+    <input type="number" id="predictBuy" placeholder="Buy Price ($)">
+    <input type="number" id="predictSell" placeholder="Sell Price ($)">
+    <input type="number" id="predictQty" placeholder="Quantity">
+    <button onclick="predictTrade();">Predict Trade</button>
+    <p id="prediction"></p>
+    <p id="analyzer"></p>
+  </div>
+
+  <!-- Profit/Loss Calculator -->
+  <div class="card">
+    <h2>Profit/Loss Calculator</h2>
+    <input type="number" id="buyPrice" placeholder="Buy Price ($)">
+    <input type="number" id="sellPrice" placeholder="Sell Price ($)">
+    <input type="number" id="quantity" placeholder="Quantity">
+    <button onclick="calculateProfit();">Calculate</button>
+    <p id="calcResult"></p>
+  </div>
+
+</div>
+
+<p class="disclaimer">
+This simulator is for educational purposes only. Trades and predictions are simulated. Real trading involves risk.
+</p>
+
+<script>
+// ------------------------- Populate 100+ Coins -------------------------
+const coinList = [
+ "bitcoin","ethereum","tether","bnb","usd-coin","ripple","cardano","dogecoin","polygon",
+ "solana","tron","litecoin","stellar","chainlink","ethereum-classic","vechain","filecoin",
+ "monero","tezos","theta-token","axie-infinity","dai","bitcoin-cash","shiba-inu",
+ "internet-computer","aave","algorand","cosmos","fantom","hedera-hashgraph","klay-token",
+ "quant-network","the-graph","zilliqa","elrond-erd-2","pancakeswap","uniswap","maker",
+ "compound","chiliz","sushi","true-usd","zcash","dash","decentraland","enjincoin","loopring",
+ "nem","ontology","waves","bitcoin-sv","harmony","holo","kusama","theta-fuel"
+];// sample; expand as needed
+
+const predictSelect = document.getElementById("predictCoin");
+coinList.sort().forEach(c => {
+  const o = document.createElement("option");
+  o.value = c;
+  o.innerText = c.toUpperCase();
+  predictSelect.appendChild(o);
+});
+
+// ------------------------ AI Predictor ------------------------
+function predictTrade(){
+    const coin = document.getElementById("predictCoin").value;
+    const buy = parseFloat(document.getElementById("predictBuy").value);
+    const sell = parseFloat(document.getElementById("predictSell").value);
+    const qty = parseFloat(document.getElementById("predictQty").value);
+    if(!coin || !buy || !sell || !qty){
+        alert("Please enter all fields!");
+        return;
+    }
+    const profit = (sell - buy) * qty;
+    const chance = Math.random();
+    document.getElementById("prediction").innerText =
+      chance>0.5
+        ? `AI predicts PROFIT on ${coin.toUpperCase()}. Gain: $${profit.toFixed(2)}`
+        : `AI predicts LOSS on ${coin.toUpperCase()}. Loss: $${Math.abs(profit).toFixed(2)}`;
+
+    document.getElementById("analyzer").innerText =
+      profit>0 ? "Analyzer: Looks bullish but always check market!" : "Analyzer: Bearish outlook, trade carefully.";
+}
+
+// ------------------------ Profit/Loss Calculator ------------------------
+function calculateProfit(){
+    const buy = parseFloat(document.getElementById("buyPrice").value);
+    const sell = parseFloat(document.getElementById("sellPrice").value);
+    const qty = parseFloat(document.getElementById("quantity").value);
+    if(!buy || !sell || !qty){ alert("Fill all fields!"); return; }
+    const profit = (sell - buy) * qty;
+    document.getElementById("calcResult").innerText = `Profit/Loss: $${profit.toFixed(2)}`;
+}
+</script>
+
+</body>
+</html>
