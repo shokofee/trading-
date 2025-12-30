@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trade Prediction AI</title>
   <style>
-    /* Overall layout */
     body {
-      background-color: #121212; /* Dark background, like trading platforms */
-      color: #fff; /* White text for readability */
+      background-color: #121212;
+      color: #fff;
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
@@ -16,26 +15,26 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      flex-direction: column;
     }
 
-    /* Container for the content */
     .container {
-      background-color: #1E1E1E; /* Slightly lighter dark background */
+      background-color: #1E1E1E;
       border-radius: 10px;
       padding: 40px;
       width: 80%;
-      max-width: 600px;
+      max-width: 700px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
       text-align: center;
     }
 
     h1 {
-      color: #00FF00; /* Bright green, like profit in trading */
+      color: #00FF00;
       margin-bottom: 30px;
     }
 
     .button {
-      background-color: #007BFF; /* A strong blue for buttons */
+      background-color: #007BFF;
       color: #fff;
       padding: 15px 30px;
       font-size: 18px;
@@ -46,16 +45,10 @@
     }
 
     .button:hover {
-      background-color: #0056b3; /* Darker blue on hover */
+      background-color: #0056b3;
     }
 
-    #predictionResult {
-      margin-top: 20px;
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    input[type="file"] {
+    input[type="file"], input[type="number"] {
       margin-bottom: 20px;
       padding: 10px;
       background-color: #333;
@@ -64,62 +57,127 @@
       border-radius: 5px;
     }
 
+    #predictionResult {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
     .status-profit {
-      color: #00FF00; /* Green color for profit */
+      color: #00FF00;
     }
 
     .status-loss {
-      color: #FF0000; /* Red color for loss */
+      color: #FF0000;
+    }
+
+    .calculator {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #333;
+      border-radius: 8px;
+    }
+
+    .calculator input {
+      width: 100px;
+      margin-right: 10px;
+    }
+
+    .calculator button {
+      margin-top: 10px;
+      background-color: #28a745;
+    }
+
+    .calculator p {
+      color: #fff;
+      font-size: 18px;
     }
   </style>
 </head>
 <body>
+
   <div class="container">
     <h1>Trade Prediction AI</h1>
     <p>Upload a trade screenshot to predict if the trade will be profitable or not.</p>
 
-    <!-- Input for uploading a screenshot -->
     <input type="file" id="tradeImage" accept="image/*">
-    
-    <!-- Button to trigger the prediction -->
     <button class="button" onclick="predictTrade()">Predict Outcome</button>
 
-    <!-- Display the prediction result -->
     <p id="predictionResult"></p>
   </div>
 
+  <div class="container calculator">
+    <h2>Profit/Loss Calculator</h2>
+    <input type="number" id="entryPrice" placeholder="Entry Price">
+    <input type="number" id="exitPrice" placeholder="Exit Price">
+    <input type="number" id="quantity" placeholder="Quantity">
+    <button class="button" onclick="calculateProfitLoss()">Calculate</button>
+    <p id="calculatorResult"></p>
+  </div>
+
   <script>
-    // This function will be triggered when the user clicks the button
+    // Trade Prediction function
     async function predictTrade() {
       const image = document.getElementById("tradeImage").files[0];
-
       if (!image) {
         alert("Please upload a trade screenshot.");
         return;
       }
 
-      // Placeholder for AI prediction call (could be an API call in the future)
-      const prediction = await getPredictionFromAI(image);
+      // Simulate image validation (for trade-related content)
+      const isValidTrade = await validateImage(image);
 
-      // Display the result on the webpage
-      const resultElement = document.getElementById("predictionResult");
-      if (prediction === "Profit") {
-        resultElement.innerText = "Prediction: PROFIT";
-        resultElement.className = "status-profit"; // Green text
-      } else if (prediction === "Loss") {
-        resultElement.innerText = "Prediction: LOSS";
-        resultElement.className = "status-loss"; // Red text
+      if (isValidTrade) {
+        // Simulate AI prediction (Profit or Loss)
+        const prediction = await getPredictionFromAI(image);
+        displayPrediction(prediction);
       } else {
-        resultElement.innerText = "Prediction: Unable to Predict";
-        resultElement.className = ""; // Default text
+        document.getElementById("predictionResult").innerText = "Not a valid trade screenshot.";
+        document.getElementById("predictionResult").className = "";
       }
     }
 
-    // Simulated prediction function (replace with real AI model in the future)
+    // Simulated function to check if the image is a valid trade screenshot
+    async function validateImage(image) {
+      // Normally, you'd call an AI API to check if it's a valid trade screenshot
+      // Simulating with a 50% chance
+      return Math.random() > 0.5; // Randomly say it's a valid trade 50% of the time
+    }
+
+    // Simulated function to predict the outcome (Profit or Loss)
     async function getPredictionFromAI(image) {
-      // For now, we'll just randomly return "Profit" or "Loss" as an example
       return Math.random() > 0.5 ? "Profit" : "Loss";
     }
+
+    // Display prediction result
+    function displayPrediction(prediction) {
+      const resultElement = document.getElementById("predictionResult");
+      if (prediction === "Profit") {
+        resultElement.innerText = "Prediction: PROFIT";
+        resultElement.className = "status-profit";
+      } else if (prediction === "Loss") {
+        resultElement.innerText = "Prediction: LOSS";
+        resultElement.className = "status-loss";
+      }
+    }
+
+    // Profit/Loss Calculator function
+    function calculateProfitLoss() {
+      const entryPrice = parseFloat(document.getElementById("entryPrice").value);
+      const exitPrice = parseFloat(document.getElementById("exitPrice").value);
+      const quantity = parseInt(document.getElementById("quantity").value);
+
+      if (isNaN(entryPrice) || isNaN(exitPrice) || isNaN(quantity)) {
+        alert("Please fill in all fields with valid numbers.");
+        return;
+      }
+
+      const profitLoss = (exitPrice - entryPrice) * quantity;
+      const resultText = profitLoss >= 0 ? `Profit: $${profitLoss.toFixed(2)}` : `Loss: $${Math.abs(profitLoss).toFixed(2)}`;
+
+      document.getElementById("calculatorResult").innerText = resultText;
+    }
   </script>
+
 </body>
 </html>
