@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trade Prediction AI - Bitcoin Live</title>
+  <title>Trade Prediction AI - Live Bitcoin Chart</title>
 
   <!-- Chart.js CDN for Bitcoin live chart -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -108,13 +108,20 @@
       font-size: 18px;
     }
 
-    /* Chart Container */
     .chart-container {
       width: 100%;
       max-width: 900px;
       height: 400px;
       margin-top: 50px;
     }
+
+    .disclaimer {
+      color: #aaa;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 50px;
+    }
+
   </style>
 </head>
 <body>
@@ -149,6 +156,11 @@
   <!-- Bitcoin Live Chart -->
   <div class="chart-container">
     <canvas id="bitcoinChart"></canvas>
+  </div>
+
+  <!-- Disclaimer Section -->
+  <div class="disclaimer">
+    <p><strong>Disclaimer:</strong> The AI prediction is based on the analysis of trade data and may not always be accurate. Please perform additional research before making any financial decisions.</p>
   </div>
 
   <script>
@@ -256,5 +268,4 @@
           datasets: [{
             label: 'Bitcoin Price (USD)',
             data: prices,
-            borderColor: '#FF9900',
-            fill:
+            borderColor
